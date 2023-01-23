@@ -2,21 +2,18 @@
 #![no_main]
 
 use core::panic::PanicInfo;
-use gd32vf103xx_hal::{delay::McycleDelay, prelude::*, rcu::RcuExt, time::U32Ext};
-use longan_nano::{
-    hal::pac,
-    led::{rgb, Led},
-};
+use gd32vf103xx_hal::{delay::McycleDelay, pac::Peripherals, prelude::*};
+use longan_nano::led::{rgb, Led};
 use riscv_rt::entry;
 
 #[panic_handler]
-fn gd32_panic_handler(_panic: &PanicInfo) -> ! {
+fn panic_handler(_panic: &PanicInfo) -> ! {
     loop {}
 }
 
 #[entry]
 fn main() -> ! {
-    let dp = pac::Peripherals::take().unwrap();
+    let dp = Peripherals::take().unwrap();
     let mut rcu = dp
         .RCU
         .configure()
